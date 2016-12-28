@@ -18,7 +18,7 @@ Foi utilizado o servidor: http-server [[https://github.com/indexzero/http-server
 Para rodar: no cmd
   
   
-  -$ cd <<Pasta do projeto>>
+  -$ cd [[Pasta do projeto]]
 
 
   -$ http-server
