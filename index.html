@@ -28,8 +28,8 @@
 <div class="container" ng-controller="LitaComprasController">
     <div class="col-xs-12">
         <ul class="list-group">
-            <li ng-repeat="item in comprasItems" class="list-group-item text-center clearfix">
-                <span class="span-bold">{{item.itemName}}</span>
+            <li ng-repeat="item in comprasItems | orderBy: 'date'" class="list-group-item text-center clearfix">
+                <span class="span-bold">{{item.itemName  | uppercase}}</span>
             </li>
         </ul>
     </div>
