@@ -1,5 +1,5 @@
 # ListaDeCompras
-Programa criado no curso de AngularJs.
+Programa criado no curso de AngularJs. [[https://www.udemy.com/angularjs-for-beginners-udemy/]]
 
 
 # Como rodar:
