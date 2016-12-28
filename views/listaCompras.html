@@ -1,0 +1,10 @@
+<div class="col-xs-12">
+    <a href="#/addItem" style="margin-bottom: 10px;" class="btn btn-primary btn-lg btn-block">
+        <span class="glyphicon glyphicon-plus"></span>
+        Adicionar Itens</a>
+    <ul class="list-group">
+        <li ng-repeat="item in comprasItens | orderBy: 'data'" class="list-group-item text-center clearfix">
+            <span class="span-bold">{{item.nome | uppercase}}</span>
+        </li>
+    </ul>
+</div>

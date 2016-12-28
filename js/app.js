@@ -1,24 +1,35 @@
-/**
- * Created by Thomas on 5/28/2015.
- */
-var app = angular.module('LitaComprasApp', []);
+var app = angular.module('ListaComprasApp', ["ngRoute"]);
+
+app.config(function($routeProvider) {
+	$routeProvider
+	.when("/",{
+		templateUrl: "views/listaCompras.html",
+		controller: "ListaComprasController"
+	})
+	.when("/addItem",{
+		templateUrl: "views/addItem.html",
+		controller: "ListaComprasController"
+	})
+	.otherwise({
+		redirectTo: "/"
+	})
+});
 
 app.controller("HomeController", ["$scope", function($scope) {
-    $scope.appTitle = "Grocery List";
+	$scope.appTitle = "Lista de Compras";
 }]);
 
-app.controller("LitaComprasController", ["$scope", function($scope){
+app.controller("ListaComprasController", ["$scope", function($scope){
 
-
-    $scope.comprasItems = [
-        {completed: true, itemName: 'Leite', 		date: '2014-10-01'},
-        {completed: true, itemName: 'Biscoitos', 	date: '2014-10-01'},
-        {completed: true, itemName: 'Sorvetes',		date: '2014-10-02'},
-        {completed: true, itemName: 'Batatas',	 	date: '2014-10-02'},
-        {completed: true, itemName: 'Cereal', 		date: '2014-10-03'},
-        {completed: true, itemName: 'Pão',	 		date: '2014-10-03'},
-        {completed: true, itemName: 'Ovos', 		date: '2014-10-04'},
-        {completed: true, itemName: 'Tortillas',	date: '2014-10-04'}
-    ]
+	$scope.comprasItens = [
+	{completed: true, nome: 'Leite', 		data: '2014-10-01'},
+	{completed: true, nome: 'Biscoitos', 	data: '2014-10-01'},
+	{completed: true, nome: 'Sorvetes',		data: '2014-10-02'},
+	{completed: true, nome: 'Batatas',	 	data: '2014-10-02'},
+	{completed: true, nome: 'Cereal', 		data: '2014-10-03'},
+	{completed: true, nome: 'Pão',	 		data: '2014-10-03'},
+	{completed: true, nome: 'Ovos', 		data: '2014-10-04'},
+	{completed: true, nome: 'Tortillas',	data: '2014-10-04'}
+	]
 
 }]);
