@@ -33,7 +33,22 @@ app.service('ListaComprasService', function(){
 	{id: 8, completed: true, nome: 'Tortillas',	data: '2014-10-04'}
 	];
 
-	listaComprasService.save = function(entry){
+	listaComprasService.getNovoId = function(){
+		debugger;
+		if(listaComprasService.newId){
+			listaComprasService.newId++;
+			return listaComprasService.newId;
+		} else{
+			var maxid = _.max(listaComprasService.comprasItens, function(entry){return entry.id})
+
+			listaComprasService.newId = maxid.id + 1;
+			return listaComprasService.newId;
+		}
+	};
+	
+	listaComprasService.salvar = function(entry){
+		debugger;
+		entry.id = listaComprasService.getNovoId();
 		listaComprasService.comprasItens.push(entry);
 	};
 
@@ -45,15 +60,16 @@ app.controller("HomeController", ["$scope", function($scope) {
 }]);
 
 app.controller("ListaComprasController", ["$scope", "$routeParams", "$location", "ListaComprasService", function($scope, $routeParams, $location, ListaComprasService){
-	
+
 	$scope.comprasItens = ListaComprasService.comprasItens;
 
-	$scope.rp = "Valor de Parametro Rota: " + $routeParams.id;
+	$scope.compraItem = { id: 0, completed: true, nome: '', 		data: new Date() }
 
-	$scope.compraItem = {id: 9, completed: true, nome: 'queijo', 		data: '2016-10-04'}
+	$scope.salvar = function(){
+		debugger;
+		ListaComprasService.salvar($scope.compraItem);
+		console.log($scope.compraItem);
 
-	$scope.save = function(){
-		ListaComprasService.save($scope.compraItem);
 		$location.path("/");
 	}
 }]);
