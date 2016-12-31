@@ -4,16 +4,18 @@ app.config(function($routeProvider) {
 	$routeProvider
 	.when("/",{
 		templateUrl: "views/listaCompras.html",
-		controller: "ListaComprasController"
+		controller: "HomeController"
 	})
 	.when("/addItem",{
 		templateUrl: "views/addItem.html",
-		controller: "ListaComprasController"
+		controller: "ComprasItensController"
 	})
-	.when("/addItem/:id",{
+	.
+	when("/addItem/edit/:id",{
 		templateUrl: "views/addItem.html",
-		controller: "ListaComprasController"
+		controller: "ComprasItensController"
 	})
+
 	.otherwise({
 		redirectTo: "/"
 	})
@@ -33,8 +35,16 @@ app.service('ListaComprasService', function(){
 	{id: 8, completed: true, nome: 'Tortillas',	data: '2014-10-04'}
 	];
 
+	listaComprasService.findById = function(id){
+		for(var item in listaComprasService.comprasItens){
+			if(listaComprasService.comprasItens[item].id === id){
+				
+				return listaComprasService.comprasItens[item];
+			}
+		}
+	};
+
 	listaComprasService.getNovoId = function(){
-		debugger;
 		if(listaComprasService.newId){
 			listaComprasService.newId++;
 			return listaComprasService.newId;
@@ -46,29 +56,43 @@ app.service('ListaComprasService', function(){
 		}
 	};
 	
+
 	listaComprasService.salvar = function(entry){
+		var atualizarItem = listaComprasService.findById(entry.id);
 		debugger;
-		entry.id = listaComprasService.getNovoId();
-		listaComprasService.comprasItens.push(entry);
+		if(atualizarItem){
+			atualizarItem.completed = entry.completed;
+			atualizarItem.nome = entry.nome;
+			atualizarItem.data = entry.data;
+		}
+		else{
+			entry.id = listaComprasService.getNovoId();
+			listaComprasService.comprasItens.push(entry);	
+		}
+		
 	};
 
 	return listaComprasService;
 });
 
-app.controller("HomeController", ["$scope", function($scope) {
-	$scope.appTitle = "Lista de Compras";
+app.controller("HomeController",["$scope", "ListaComprasService", function($scope, ListaComprasService){
+	$scope.comprasItens = ListaComprasService.comprasItens;
 }]);
 
-app.controller("ListaComprasController", ["$scope", "$routeParams", "$location", "ListaComprasService", function($scope, $routeParams, $location, ListaComprasService){
 
-	$scope.comprasItens = ListaComprasService.comprasItens;
+app.controller("ComprasItensController", ["$scope", "$routeParams", "$location", "ListaComprasService", function($scope, $routeParams, $location, ListaComprasService){
 
-	$scope.compraItem = { id: 0, completed: true, nome: '', 		data: new Date() }
+	if(!$routeParams){
+		$scope.comprasItens = { id: 0, completed: true, nome: '', 		data: new Date() }	
+	}
+	else{
+		$scope.comprasItens = _.clone(ListaComprasService.findById(parseInt($routeParams.id)));
+	}
 
 	$scope.salvar = function(){
 		debugger;
-		ListaComprasService.salvar($scope.compraItem);
-		console.log($scope.compraItem);
+		ListaComprasService.salvar($scope.comprasItens);
+		console.log($scope.comprasItens);
 
 		$location.path("/");
 	}
