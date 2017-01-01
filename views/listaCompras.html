@@ -4,15 +4,10 @@
         Adicionar Itens</a>
     <ul class="list-group">
         <li ng-repeat="item in comprasItens | orderBy: '-data'" class="list-group-item text-center clearfix">
-            <span class="span-bold">{{item.nome | uppercase}}</span>
             
-             <button type="button" class="btn btn-sm btn-danger pull-right" ng-click="removerItem(item)">
-                <span class="glyphicon glyphicon-trash"></span>
-            </button>
+            <tb-Compras-Item></tb-Compras-Item>
+           
 
-            <a href="#/addItem/edit/{{item.id}}" class="btn btn-sm btn-default pull-right">
-            	<span class="glyphicon glyphicon-pencil"></span>
-            </a>
         </li>
     </ul>
 </div>

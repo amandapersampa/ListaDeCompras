@@ -106,3 +106,10 @@ app.controller("ComprasItensController", ["$scope", "$routeParams", "$location",
 		$location.path("/");
 	}
 }]);
+
+app.directive("tbComprasItem", function(){
+	return {
+		restrict: "E",
+		templateUrl: "views/comprasItem.html"
+	}
+})
