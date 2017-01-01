@@ -25,14 +25,14 @@ app.service('ListaComprasService', function(){
 	var listaComprasService = {};
 
 	listaComprasService.comprasItens = [
-	{id: 1, completed: true, nome: 'Leite', 		data: '2014-10-01'},
-	{id: 2, completed: true, nome: 'Biscoitos', 	data: '2014-10-01'},
-	{id: 3, completed: true, nome: 'Sorvetes',		data: '2014-10-02'},
-	{id: 4, completed: true, nome: 'Batatas',	 	data: '2014-10-02'},
-	{id: 5, completed: true, nome: 'Cereal', 		data: '2014-10-03'},
-	{id: 6, completed: true, nome: 'Pão',	 		data: '2014-10-03'},
-	{id: 7, completed: true, nome: 'Ovos', 		data: '2014-10-04'},
-	{id: 8, completed: true, nome: 'Tortillas',	data: '2014-10-04'}
+	{id: 1, completed: true, nome: 'Leite', 		data: new Date("October 1, 2014 11:13:00")},
+	{id: 2, completed: true, nome: 'Biscoitos', 	data: new Date("October 1, 2014 11:13:00")},
+	{id: 3, completed: true, nome: 'Sorvetes',		data: new Date("October 1, 2014 11:13:00")},
+	{id: 4, completed: true, nome: 'Batatas',	 	data: new Date("October 2, 2014 11:13:00")},
+	{id: 5, completed: true, nome: 'Cereal', 		data: new Date("October 3, 2014 11:13:00")},
+	{id: 6, completed: true, nome: 'Pão',	 		data: new Date("October 3, 2014 11:13:00")},
+	{id: 7, completed: true, nome: 'Ovos', 			data: new Date("October 4, 2014 11:13:00")},
+	{id: 8, completed: true, nome: 'Tortillas',		data: new Date("October 5, 2014 11:13:00")}
 	];
 
 	listaComprasService.findById = function(id){
@@ -72,11 +72,20 @@ app.service('ListaComprasService', function(){
 		
 	};
 
+	listaComprasService.removerItem = function(entry){
+		var index = listaComprasService.comprasItens.indexOf(entry);
+		listaComprasService.comprasItens.splice(index, 1);
+	};
+
 	return listaComprasService;
 });
 
 app.controller("HomeController",["$scope", "ListaComprasService", function($scope, ListaComprasService){
 	$scope.comprasItens = ListaComprasService.comprasItens;
+
+	$scope.removerItem = function(entry){
+		ListaComprasService.removerItem(entry);
+	}
 }]);
 
 
