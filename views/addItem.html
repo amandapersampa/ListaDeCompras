@@ -3,10 +3,6 @@
         <h1>Adicione itens abaixo</h1>
     </div>
     <form name="comprasForm">
-        <p><b>Dirty:</b> {{comprasForm.$dirty}}</p>
-        <p><b>Pristine:</b> {{comprasForm.$pristine}}</p>
-        <p><b>Valid:</b> {{comprasForm.$valid}}</p>
-
         <div class="alert alert-danger" role="alert" ng-show="comprasForm.$dirty && !comprasForm.$valid">
             <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
             <span class="sr-only">Erro:</span>

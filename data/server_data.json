@@ -1,0 +1,9 @@
+[{"id": 1, "completed": false, "nome": "Leite", "data": "October 1, 2014 11:13:00"},
+ {"id": 2, "completed": false, "nome": "Biscoitos", "data": "October 1, 2014 11:13:00"},
+ {"id": 3, "completed": false, "nome": "Sorvetes", "data": "October 1, 2014 11:13:00"},
+ {"id": 4, "completed": false, "nome": "Batatas", "data": "October 2, 2014 11:13:00"},
+ {"id": 5, "completed": false, "nome": "Cereal", "data": "October 3, 2014 11:13:00"},
+ {"id": 6, "completed": false, "nome": "Pão", "data": "October 3, 2014 11:13:00"},
+ {"id": 7, "completed": false, "nome": "Ovos", "data": "October 4, 2014 11:13:00"},
+ {"id": 8, "completed": false, "nome": "Tortillas", "data": "October 5, 2014 11:13:00"}
+]

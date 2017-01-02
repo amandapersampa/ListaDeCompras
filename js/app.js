@@ -21,19 +21,22 @@ app.config(function($routeProvider) {
 	})
 });
 
-app.service('ListaComprasService', function(){
+app.service('ListaComprasService', function($http){
 	var listaComprasService = {};
 
-	listaComprasService.comprasItens = [
-	{id: 1, completed: true, nome: 'Leite', 		data: new Date("October 1, 2014 11:13:00")},
-	{id: 2, completed: true, nome: 'Biscoitos', 	data: new Date("October 1, 2014 11:13:00")},
-	{id: 3, completed: true, nome: 'Sorvetes',		data: new Date("October 1, 2014 11:13:00")},
-	{id: 4, completed: true, nome: 'Batatas',	 	data: new Date("October 2, 2014 11:13:00")},
-	{id: 5, completed: true, nome: 'Cereal', 		data: new Date("October 3, 2014 11:13:00")},
-	{id: 6, completed: true, nome: 'Pão',	 		data: new Date("October 3, 2014 11:13:00")},
-	{id: 7, completed: true, nome: 'Ovos', 			data: new Date("October 4, 2014 11:13:00")},
-	{id: 8, completed: true, nome: 'Tortillas',		data: new Date("October 5, 2014 11:13:00")}
-	];
+	listaComprasService.comprasItens = [$http];
+	$http.get("data/server_data.json")
+	.success(function(data){
+		listaComprasService.comprasItens = data;
+
+		for (var item in listaComprasService.comprasItens) {
+			listaComprasService.comprasItens.data = new Date(listaComprasService.comprasItens[item].data);
+		}
+	})
+	.error(function(data,status){
+		alert("error");
+	})
+	;
 
 	listaComprasService.findById = function(id){
 		for(var item in listaComprasService.comprasItens){
@@ -59,22 +62,48 @@ app.service('ListaComprasService', function(){
 
 	listaComprasService.salvar = function(entry){
 		var atualizarItem = listaComprasService.findById(entry.id);
-		debugger;
 		if(atualizarItem){
-			atualizarItem.completed = entry.completed;
-			atualizarItem.nome = entry.nome;
-			atualizarItem.data = entry.data;
+			$http.post("data/updated_item.json", entry)
+			.success(function(data){
+				if(data.status == 1){
+					atualizarItem.completed = entry.completed;
+					atualizarItem.nome = entry.nome;
+					atualizarItem.data = entry.data;
+					console.log(atualizarItem);
+				}
+			})
+			.error(function(data, status){
+				alert("error")
+			});
+			
 		}
 		else{
-			entry.id = listaComprasService.getNovoId();
-			listaComprasService.comprasItens.push(entry);	
+			$http.post("data/added_item.json", entry)
+			.success(function(data){
+				entry.id = data.newId;
+				listaComprasService.comprasItens.push(entry);	
+
+			})
+			.error(function(data, status){
+				alert("error")
+			});
 		}
 		
 	};
 
 	listaComprasService.removerItem = function(entry){
-		var index = listaComprasService.comprasItens.indexOf(entry);
-		listaComprasService.comprasItens.splice(index, 1);
+
+		$http.post("data/delete_item.json", {id: entry.id})
+		.success(function(data){
+			if(data.status == 1){
+				var index = listaComprasService.comprasItens.indexOf(entry);
+				listaComprasService.comprasItens.splice(index, 1);
+			}
+		})
+		.error(function(data, status){
+
+		});
+		
 	};
 
 	listaComprasService.marcarCompleted = function(entry){
@@ -96,6 +125,10 @@ app.controller("HomeController",["$scope", "ListaComprasService", function($scop
 	$scope.marcarCompleted = function(entry){
 		ListaComprasService.marcarCompleted(entry);
 	}
+
+	$scope.$watch(function(){return ListaComprasService.comprasItens}, function(comprasItens){
+		$scope.comprasItens = comprasItens;
+	});
 }]);
 
 
@@ -109,10 +142,8 @@ app.controller("ComprasItensController", ["$scope", "$routeParams", "$location",
 	}
 
 	$scope.salvar = function(){
-		debugger;
 		ListaComprasService.salvar($scope.comprasItens);
-		console.log($scope.comprasItens);
-
+		
 		$location.path("/");
 	}
 }]);
