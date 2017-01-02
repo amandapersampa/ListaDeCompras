@@ -77,14 +77,24 @@ app.service('ListaComprasService', function(){
 		listaComprasService.comprasItens.splice(index, 1);
 	};
 
+	listaComprasService.marcarCompleted = function(entry){
+		entry.completed = !entry.completed;
+	};
+
 	return listaComprasService;
 });
 
 app.controller("HomeController",["$scope", "ListaComprasService", function($scope, ListaComprasService){
 	$scope.comprasItens = ListaComprasService.comprasItens;
 
+	$scope.appTitle = "Lista de Compras";
+
 	$scope.removerItem = function(entry){
 		ListaComprasService.removerItem(entry);
+	}
+
+	$scope.marcarCompleted = function(entry){
+		ListaComprasService.marcarCompleted(entry);
 	}
 }]);
 
@@ -107,7 +117,7 @@ app.controller("ComprasItensController", ["$scope", "$routeParams", "$location",
 	}
 }]);
 
-app.directive("tbComprasItem", function(){
+app.directive("tbcomprasitem", function(){
 	return {
 		restrict: "E",
 		templateUrl: "views/comprasItem.html"

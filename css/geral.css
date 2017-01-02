@@ -9,3 +9,16 @@
 .link-add{
 	margin-bottom: 10px
 }
+
+.strike{
+    position: relative;
+}
+
+.strike::after {
+    border-bottom: 3px solid black;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 40%;
+}
